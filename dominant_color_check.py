@@ -1,7 +1,8 @@
-import numpy as np
 import cv2
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
+
 
 def find_histogram(clt):
     """
@@ -16,6 +17,7 @@ def find_histogram(clt):
     hist /= hist.sum()
 
     return hist
+
 def plot_colors2(hist, centroids):
     bar = np.zeros((50, 300, 3), dtype="uint8")
     startX = 0
@@ -30,6 +32,7 @@ def plot_colors2(hist, centroids):
     # return the bar chart
     return bar
 
+###########
 cap = cv2.VideoCapture(0)
 
 while(True):
@@ -40,43 +43,28 @@ while(True):
     # Draw a box on the frame
     box_color = (0, 255, 0)  # Green color in BGR
     box_thickness = 2
-    cv2.rectangle(frame, (250, 150), (400, 400), box_color, box_thickness)
+    cv2.rectangle(frame, (200, 150), (400, 400), box_color, box_thickness)
 
     # Display the resulting frame
-    #cv2.imshow("frame", gray)
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    lower_pink = np.array([0, 110, 110])
-    upper_pink = np.array([5, 250, 250])
-
-    # Create a mask using the inRange function
-    mask = cv2.inRange(hsv, lower_pink, upper_pink)
-
-    # Find contours in the mask
-    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-
-    # Draw the contours on the original frame
-    cv2.drawContours(frame, contours, -1, (0, 255, 0), 3)
-
     # Display the resulting frame
     cv2.imshow('Color Tracking', frame)
 
-    
-    img = cv2.imread(frame)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-    img = img.reshape((img.shape[0] * img.shape[1],3)) #represent as row*column,channel number
-    clt = KMeans(n_clusters=3) #cluster number
-    clt.fit(img)
+    ###
+    pixels = frame[160:390, 200:400].reshape((-1, 3))
+                                              
+    clt = KMeans(n_clusters=3, n_init=1) #cluster number
+    clt.fit(pixels)
 
     hist = find_histogram(clt)
     bar = plot_colors2(hist, clt.cluster_centers_)
 
+    plt.pause(0.01)
     plt.axis("off")
     plt.imshow(bar)
-    plt.show()
 
 # When everything done, release the capture
 cap.release()
