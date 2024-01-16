@@ -1,3 +1,5 @@
+# Histogram and KMeans color calculation based on the example provided by: https://code.likeagirl.io/finding-dominant-colour-on-an-image-b4e075f98097
+
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -25,8 +27,9 @@ def plot_colors2(hist, centroids):
     for (percent, color) in zip(hist, centroids):
         # plot the relative percentage of each cluster
         endX = startX + (percent * 300)
-        cv2.rectangle(bar, (int(startX), 0), (int(endX), 50),
-                      color.astype("uint8").tolist(), -1)
+        rgb_color = (int(color[2]), int(color[1]), int(color[0]))
+        cv2.rectangle(bar, (int(startX), 0), (int(endX), 50), rgb_color, -1)
+
         startX = endX
 
     # return the bar chart
@@ -39,7 +42,6 @@ while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
 
-
     # Draw a box on the frame
     box_color = (0, 255, 0)  # Green color in BGR
     box_thickness = 2
@@ -49,14 +51,15 @@ while(True):
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     # Display the resulting frame
-    cv2.imshow('Color Tracking', frame)
+    cv2.imshow("Color Tracking", frame)
 
-    ###
-    pixels = frame[160:390, 200:400].reshape((-1, 3))
+    # Track only pixels within bounds of the box
+    # Convert pixel frames to 2D array
+    pixels = frame[170:380, 220:380].reshape((-1, 3))
                                               
-    clt = KMeans(n_clusters=3, n_init=1) #cluster number
+    clt = KMeans(n_clusters=3, n_init=1)
     clt.fit(pixels)
 
     hist = find_histogram(clt)
