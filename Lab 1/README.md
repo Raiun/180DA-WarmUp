@@ -1,4 +1,4 @@
-# 180DA-WarmUp
+# 180DA-WarmUp-Lab-1
 
 # Task 4
 1. HSV is typically used over RGB in object tracking due to its ability to easily isolate specific color ranges in different lighting conditions (as HSV controls hue, saturation, and brightness/value) where as RGB only gives color information. The threshold range is typically dependent on lighting and camera conditions, however for HSV it is generally pretty tight with the hue varying by roughly 10 degrees, but with saturation and value being within a wide range of variation from 50-255.
