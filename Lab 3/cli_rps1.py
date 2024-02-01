@@ -3,7 +3,7 @@ import re
 
 pattern = re.compile(r"\b(rock|paper|scissors)\b", re.IGNORECASE)
 
-user_input = input("Enter your rock, paper, scissor choice: ")
+user_input = input("Enter your rock, paper, scissors choice: ")
 match_input = pattern.search(user_input)
 
 while not match_input:
@@ -19,7 +19,7 @@ match rps_random_seed:
     case 1:
         rps_bot_choice = "paper"
     case 2:
-        rps_bot_choice = "scissor"
+        rps_bot_choice = "scissors"
 print(f"RPS bot chooses {rps_bot_choice}")
 
 if player_choice == rps_bot_choice:
@@ -30,11 +30,11 @@ elif player_choice == "rock":
     else:
         print("Player WINS")
 elif player_choice == "paper":
-    if rps_bot_choice == "scissor":
+    if rps_bot_choice == "scissors":
         print("RPS Bot WINS")
     else:
         print("Player WINS")
-elif player_choice == "scissor":
+elif player_choice == "scissors":
     if rps_bot_choice == "rock":
         print("RPS Bot WINS")
     else:

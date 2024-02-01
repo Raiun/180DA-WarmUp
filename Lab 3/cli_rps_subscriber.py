@@ -46,11 +46,11 @@ while True: # perhaps add a stopping condition using some break or something.
     if (client.on_connect):
         pattern = re.compile(r"\b(rock|paper|scissors)\b", re.IGNORECASE)
 
-        user_input = input("Enter your rock, paper, scissor choice: ")
+        user_input = input("Enter your rock, paper, scissors choice: ")
         match_input = pattern.search(user_input)
 
         while not match_input:
-            user_input = input("Enter your rock, paper, scissor choice: ")
+            user_input = input("Enter your rock, paper, scissors choice: ")
             match_input = pattern.search(user_input)
         
         player_choice = match_input.group().lower()

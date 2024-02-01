@@ -20,11 +20,11 @@ def rps(player_inputs):
         else:
             message = "Player 1 WINS"
     elif p1_choice == "paper":
-        if p2_choice == "scissor":
+        if p2_choice == "scissors":
             message = "Player 2 WINS"
         else:
             message = "Player 1 WINS"
-    elif p1_choice == "scissor":
+    elif p1_choice == "scissors":
         if p2_choice == "rock":
             message = "Player 2 WINS"
         else:
