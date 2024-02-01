@@ -5,7 +5,8 @@ import pygame
 from pygame.locals import (
     K_r,
     K_p,
-    K_s
+    K_s,
+    K_SPACE
 )
 
 pygame.init()
@@ -56,7 +57,7 @@ def rps(player_choice, rps_bot_choice):
         else:
             win_message = "Player WINS"
     
-    return win_message
+    return win_message + " (Press SPACE to play again!)"
 
 def draw_choice_buttons():    
     rock_choice = Choice_Button("Rock (Press R)")
@@ -114,35 +115,38 @@ def draw_rps(player_choice, rps_bot_choice):
     text_rect = text_surface.get_rect(center=(630, 100))
     screen.blit(text_surface, text_rect)
 
-    win_font = pygame.font.Font(None, 80)
+    win_font = pygame.font.Font(None, 50)
     win_message = rps(player_choice, rps_bot_choice)
     # Create a text surface and render the text on it
     text_surface = win_font.render(win_message, True, (0, 0, 0))
     # Position the text in the center of the button
-    text_rect = text_surface.get_rect(center=(400, 400))
+    text_rect = text_surface.get_rect(center=(400, 450))
     screen.blit(text_surface, text_rect)
+
+def generate_bot_choice():
+    rps_random_seed = random.randint(0, 2)
+    match rps_random_seed:
+        case 0:
+            rps_bot_choice = "rock"
+        case 1:
+            rps_bot_choice = "paper"
+        case 2:
+            rps_bot_choice = "scissors"
+    return rps_bot_choice
 
 choosing_mode = True
 player_choice = ""
-rps_random_seed = random.randint(0, 2)
-match rps_random_seed:
-    case 0:
-        rps_bot_choice = "rock"
-    case 1:
-        rps_bot_choice = "paper"
-    case 2:
-        rps_bot_choice = "scissors"
+rps_bot_choice = ""
 
 # Run until the user asks to quit
 running = True
 while running:
     # Did the user click the window close button?
     for event in pygame.event.get():
+        pressed_keys = pygame.key.get_pressed()
         if event.type == pygame.QUIT:
             running = False
-        
-        pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[K_r]:
+        elif pressed_keys[K_r]:
             print("rock")
             player_choice = "rock"
             choosing_mode = False
@@ -154,6 +158,8 @@ while running:
             print("scissors")
             player_choice = "scissors"
             choosing_mode = False
+        elif pressed_keys[K_SPACE]:
+            choosing_mode = True
 
     # Fill the background with white
     screen.fill((255, 255, 255))
@@ -163,6 +169,7 @@ while running:
     
     if (choosing_mode):
         draw_choice_buttons()
+        rps_bot_choice = generate_bot_choice()
     else:
         draw_rps(player_choice, rps_bot_choice)
         #choosing_mode = True
