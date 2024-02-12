@@ -1,7 +1,7 @@
 # 180DA-WarmUp-Lab-4
 
 # Task 1
-1. Working Microcontroller
+1. Working Microcontroller (Arduino Nano 33 IoT)
 ![alt text](<180DA Nano LED.jpg>)
 
 2. IMU Serial Printouts
